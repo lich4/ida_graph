@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CFGraph</title>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-plus@2.11.5/dist/index.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.5.22/dist/vue.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/element-plus@2.11.5/dist/index.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.12.0/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/panzoom@9.4.3/dist/panzoom.min.js"></script>
+<body>
+    <style>
+        html, body, #app {
+            height: 100%;
+        }
+
+        .el-splitter-panel {
+            border-width: 2px;
+            border-style: solid;
+            border-color: var(--el-border-color-light);
+        }
+
+        .el-splitter {
+            box-shadow: var(--el-border-color-light) 1px 1px 1px;
+        }
+
+    </style>
+    <div id="app" v-cloak>
+        <el-splitter v-loading="loading">
+            <el-splitter-panel size="200">
+                <el-descriptions :column="1" size="small" border>
+                    <el-descriptions-item>
+                        <template #label>
+                           <span style="font-size:medium;color:cadetblue">Function</span>
+                        </template>
+                        {{cfg_data.name}}
+                    </el-descriptions-item>
+                    <el-descriptions-item>
+                        <template #label>
+                           Address
+                        </template>
+                        {{cfg_data.ea}}
+                    </el-descriptions-item>
+                    <el-descriptions-item>
+                        <template #label>
+                           Size
+                        </template>
+                        {{cfg_data.size}}
+                    </el-descriptions-item>
+                    <el-descriptions-item>
+                        <template #label>
+                            Imm assign count
+                        </template>
+                        {{cfg_data.imm_assign_count}}
+                    </el-descriptions-item>
+                    <el-descriptions-item>
+                        <template #label>
+                            Block count
+                        </template>
+                        {{current.block_count}}
+                    </el-descriptions-item>
+                    <el-descriptions-item>
+                        <template #label>
+                            Inst count
+                        </template>
+                        {{current.inst_count}}
+                    </el-descriptions-item>
+                    <el-descriptions-item>
+                        <template #label>
+                            Average block size
+                        </template>
+                        {{(current.inst_count/current.block_count).toFixed(2)}}
+                    </el-descriptions-item>
+                    <el-descriptions-item>
+                        <template #label>
+                            Edge count
+                        </template>
+                        {{current.edges.length}}
+                    </el-descriptions-item>
+                    <el-descriptions-item>
+                        <template #label>
+                            Loop count
+                        </template>
+                        {{current.loop_count}}
+                    </el-descriptions-item>
+                    <el-descriptions-item>
+                        <template #label>
+                            Cyclomatic complexity
+                        </template> <!-- E-N+2 -->
+                        {{current.edges.length-current.block_count+2}}
+                    </el-descriptions-item>
+                    <el-descriptions-item>
+                        <template #label>
+                            Graph density
+                        </template> <!-- E/(N*(N-1)) -->
+                        {{(current.edges.length/(current.block_count*(current.block_count-1))).toFixed(2)}}
+                    </el-descriptions-item>
+                    <el-descriptions-item>
+                        <template #label>
+                            Max in degree
+                        </template>
+                        {{current.max_indegree}}
+                    </el-descriptions-item>
+                    <el-descriptions-item>
+                        <template #label>
+                            Max out degree
+                        </template>
+                        {{current.max_outdegree}}
+                    </el-descriptions-item>
+                    <el-descriptions-item>
+                        <template #label>
+                            Max dominator count
+                        </template>
+                        {{current.max_dom_count}}
+                    </el-descriptions-item>
+                </el-descriptions>
+                <el-form :model="conf" size="small" label-width="100px" style="margin:10px">
+                    <el-form-item label="Show microcode">
+                        <el-switch v-model="conf.use_micro" @change="draw"></el-switch>
+                    </el-form-item>
+                    <el-form-item label="Show name">
+                        <el-switch v-model="conf.use_name" @change="draw"></el-switch>
+                    </el-form-item>
+                    <el-form-item label="Horizontal">
+                        <el-switch v-model="conf.use_horizon" @change="draw"></el-switch>
+                    </el-form-item>
+                </el-form>
+            </el-splitter-panel>
+            <el-splitter-panel>
+                <pre class="mermaid">
+                </pre>
+            </el-splitter-panel>
+        </el-splitter>
+    </div>
+    <script>
+        const s = document.createElement('script');
+        s.src = './main.js?ts=' + Date.now();
+        document.head.appendChild(s);
+    </script>
+</body>
+</html>
+
