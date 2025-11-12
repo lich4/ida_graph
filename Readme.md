@@ -8,7 +8,7 @@
 
 ## 安装及使用
 
-* 用`idapython`对应的`python/pip`安装`Requirements.txt`中的依赖，python版本不低于`3.11`
+* 用`idapython`对应的`python/pip`安装`Requirements.txt`中的依赖，python版本不低于`3.8`
 * 将本项目拷贝到`IDA Pro`的`plugins`目录下
 * 启动`IDA Pro`，加载可执行文件并将光标定位到任意函数中，从菜单选择`Edit - CFGraph - Open`，弹出的网页中会显示函数信息及流程图
 
@@ -53,7 +53,7 @@ Graph rendering is based on `mermaid`, with support for panning and zooming.
 
 ## Installation & Usage
 
-* Use the `python/pip` corresponding to `idapython` to install dependencies listed in `Requirements.txt`. The Python version must be `3.11` or higher.
+* Use the `python/pip` corresponding to `idapython` to install dependencies listed in `Requirements.txt`. The Python version must be `3.8` or higher.
 * Copy this project into the plugins directory of your IDA Pro installation.
 * Launch IDA Pro, load a binary, and place the cursor inside any function. Then select Edit → CFGraph → Open from the menu. A web page will pop up displaying the function information and its control-flow graph.
 
