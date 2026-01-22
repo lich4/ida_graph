@@ -32,7 +32,7 @@
     </style>
     <div id="app" v-cloak>
         <el-splitter v-loading="loading">
-            <el-splitter-panel size="200">
+            <el-splitter-panel size="220">
                 <el-descriptions :column="1" size="small" border>
                     <el-descriptions-item>
                         <template #label>
@@ -62,72 +62,72 @@
                         <template #label>
                             Block count
                         </template>
-                        {{current.block_count}}
+                        {{cfg_data.block_count}}
                     </el-descriptions-item>
                     <el-descriptions-item>
                         <template #label>
                             Inst count
                         </template>
-                        {{current.inst_count}}
+                        {{cfg_data.inst_count}}
                     </el-descriptions-item>
                     <el-descriptions-item>
                         <template #label>
                             Average block size
                         </template>
-                        {{(current.inst_count/current.block_count).toFixed(2)}}
+                        {{(cfg_data.inst_count/cfg_data.block_count).toFixed(2)}}
                     </el-descriptions-item>
                     <el-descriptions-item>
                         <template #label>
                             Edge count
                         </template>
-                        {{current.edges.length}}
+                        {{cfg_data.edges.length}}
                     </el-descriptions-item>
                     <el-descriptions-item>
                         <template #label>
                             Loop count
                         </template>
-                        {{current.loop_count}}
+                        {{cfg_data.loop_count}}
                     </el-descriptions-item>
                     <el-descriptions-item>
                         <template #label>
                             Cyclomatic complexity
                         </template> <!-- E-N+2 -->
-                        {{current.edges.length-current.block_count+2}}
+                        {{cfg_data.edges.length-cfg_data.block_count+2}}
                     </el-descriptions-item>
                     <el-descriptions-item>
                         <template #label>
                             Graph density
                         </template> <!-- E/(N*(N-1)) -->
-                        {{(current.edges.length/(current.block_count*(current.block_count-1))).toFixed(2)}}
+                        {{(cfg_data.edges.length/(cfg_data.block_count*(cfg_data.block_count-1))).toFixed(2)}}
                     </el-descriptions-item>
                     <el-descriptions-item>
                         <template #label>
                             Max in degree
                         </template>
-                        {{current.max_indegree}}
+                        {{cfg_data.max_indegree}}
                     </el-descriptions-item>
                     <el-descriptions-item>
                         <template #label>
                             Max out degree
                         </template>
-                        {{current.max_outdegree}}
+                        {{cfg_data.max_outdegree}}
                     </el-descriptions-item>
                     <el-descriptions-item>
                         <template #label>
                             Max dominator count
                         </template>
-                        {{current.max_dom_count}}
+                        {{cfg_data.max_dom_count}}
                     </el-descriptions-item>
                 </el-descriptions>
-                <el-form :model="conf" size="small" label-width="100px" style="margin:10px">
-                    <el-form-item label="Show microcode">
-                        <el-switch v-model="conf.use_micro" @change="draw"></el-switch>
+                <el-form :model="conf" size="small" label-width="70px" style="margin:10px">
+                    <el-form-item label="Maturity">
+                        <el-select v-model="conf.maturity" @change="requestCFG">
+                            <el-option v-for="item in matlst" :key="item.value" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                     <el-form-item label="Show name">
-                        <el-switch v-model="conf.use_name" @change="draw"></el-switch>
-                    </el-form-item>
-                    <el-form-item label="Horizontal">
-                        <el-switch v-model="conf.use_horizon" @change="draw"></el-switch>
+                        <el-switch v-model="conf.use_name" @change="requestCFG"></el-switch>
                     </el-form-item>
                 </el-form>
             </el-splitter-panel>
