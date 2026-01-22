@@ -193,6 +193,13 @@ def get_cfg_micro(ea, maturity):
         max_dom_count = max(len(v) for v in dom_set.values())
     else:
         max_dom_count = 0
+    dispatch_lst = list()
+    if maturity >= idaapi.MMAT_CALLS:
+        try:
+            from DeOllvm import find_all_dispatch_blks_for_mba
+            dispatch_lst = find_all_dispatch_blks_for_mba(mba)
+        except Exception as e:
+            pass
     jdata = {
         "status": 0,
         "data": {
@@ -210,6 +217,7 @@ def get_cfg_micro(ea, maturity):
             "max_indegree": max_indegree,
             "max_outdegree": max_outdegree,
             "max_dom_count": max_dom_count,
+            "dispatch_lst": dispatch_lst,
         }
     }
     return jdata

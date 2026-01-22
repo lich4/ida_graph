@@ -70,6 +70,7 @@ const app = createApp({
             const edges = cfg_data.value.edges;
             const eamap = cfg_data.value.eamap;
             const exits = cfg_data.value.exits;
+            const dispatch_lst = cfg_data.value.dispatch_lst || [];
             var key_range, entry_or_exits;
             if (cfg_data.value.maturity == 100) {
                 entry_or_exits = [0, ...exits];
@@ -80,18 +81,17 @@ const app = createApp({
             }
             var mmd = `%%{init: {"layout":"elk"}}%%\n`;
             mmd += "graph TD\n";
-            mmd += "    classDef EOE fill:#0f0\n";
+            mmd += "    classDef ENDPT fill:#00FF00\n";
+            mmd += "    classDef DISPATCH fill:#BC1717\n";
+            for (const key of entry_or_exits) {
+                mmd += "    " + key + ":::ENDPT\n";
+            }
+            for (const key of dispatch_lst) {
+                mmd += "    " + key + ":::DISPATCH\n";
+            }
             if (conf.value.use_name) {
                 for (var key = key_range[0]; key <= key_range[1]; key++) {
-                    if (entry_or_exits.includes(key)) {
-                        mmd += "    " + key + "[" + eamap[key] + "]:::EOE\n";
-                    } else {
-                        mmd += "    " + key + "[" + eamap[key] + "]\n";
-                    }
-                }
-            } else {
-                for (const key of entry_or_exits) {
-                    mmd += "    " + key + "[" + key + "]:::EOE\n";
+                    mmd += "    " + key + "[" + eamap[key] + "]\n";
                 }
             }
             edges.forEach(t => {
