@@ -1,6 +1,6 @@
 * [For English](#Introduction)
 
-![](https://raw.githubusercontent.com/lich4/ida_graph/main/screenshots/cfgraph.png)
+![](screenshots/cfgraph.png)
 
 ## 简介
 
